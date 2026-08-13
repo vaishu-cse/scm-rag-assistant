@@ -1,5 +1,6 @@
 import os
 from openai import OpenAI
+import requests
 from dotenv import load_dotenv
 load_dotenv()
 
@@ -45,3 +46,33 @@ class FoundryService:
             "response_id": response.id,
             "answer": response.output_text,
         }
+
+    def upload_document(self, file_path: str):
+        endpoint = os.getenv("AZURE_SEARCH_ENDPOINT")
+        api_key = os.getenv("AZURE_SEARCH_API_KEY")
+
+        if not endpoint or not api_key:
+            raise ValueError("Azure Search configuration is missing")
+
+        url = (
+            f"{endpoint}/knowledgesources('scm-documentation')/files"
+            f"?api-version=2026-05-01-preview"
+        )
+
+        with open(file_path, "rb") as file:
+            response = requests.post(
+                url,
+                headers={
+                    "api-key": api_key,
+                    "Content-Type": "application/octet-stream",
+                },
+                data=file,
+            )
+
+        if response.status_code not in (200, 201, 202):
+            raise Exception(
+                f"Knowledge source upload failed: "
+                f"{response.status_code} - {response.text}"
+            )
+
+        return response.json()
