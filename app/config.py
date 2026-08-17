@@ -3,7 +3,7 @@ import os
 from dotenv import load_dotenv
 
 
-load_dotenv()
+load_dotenv(override=True)
 
 
 class Settings:
@@ -14,6 +14,14 @@ class Settings:
 
     foundry_agent_name = os.getenv(
         "FOUNDRY_AGENT_NAME"
+    )
+
+    database_url = os.getenv(
+        "DATABASE_URL"
+    )
+
+    jwt_secret_key = os.getenv(
+        "JWT_SECRET_KEY"
     )
 
 

@@ -1,0 +1,19 @@
+services:
+  postgres:
+    image: postgres:16
+    container_name: scm-rag-postgres
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: localuser
+      POSTGRES_PASSWORD: localpassword
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:

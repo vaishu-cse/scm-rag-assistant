@@ -1,5 +1,7 @@
 from fastapi import FastAPI
-
+from app.database.database import Base, engine
+from app.models.user import User
+from app.routers import auth
 from app.routers.chat import router as chat_router
 from app.routers.documents import router as documents_router
 
@@ -10,7 +12,7 @@ app = FastAPI(
     version="1.0.0",
 )
 
-
+app.include_router(auth.router)
 app.include_router(chat_router)
 app.include_router(documents_router)
 

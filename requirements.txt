@@ -5,3 +5,11 @@ uvicorn
 python-dotenv
 requests
 python-multipart
+uvicorn
+sqlalchemy
+psycopg2-binary
+python-jose[cryptography]
+passlib==1.7.4
+bcrypt==4.3.0
+python-multipart
+pydantic-settings

@@ -3,7 +3,9 @@ from pydantic import BaseModel
 
 from app.services.foundry_service import FoundryService
 from app.config import settings
-
+from fastapi import APIRouter, Depends
+from app.middleware.auth import get_current_user
+from app.models.user import User
 
 router = APIRouter(
     prefix="/api/chat",
@@ -22,7 +24,10 @@ class ChatRequest(BaseModel):
 
 
 @router.post("")
-def chat(request: ChatRequest):
+def chat(
+    request: ChatRequest,
+    current_user: User = Depends(get_current_user),
+):
 
     result = foundry_service.chat(
         request.message
