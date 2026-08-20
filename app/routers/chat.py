@@ -26,7 +26,7 @@ class ChatRequest(BaseModel):
 @router.post("")
 def chat(
     request: ChatRequest,
-    current_user: User = Depends(get_current_user),
+    # current_user: User = Depends(get_current_user),
 ):
 
     result = foundry_service.chat(
