@@ -1,11 +1,9 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel
 
-from app.services.foundry_service import FoundryService
-from app.config import settings
-from fastapi import APIRouter, Depends
 from app.middleware.auth import get_current_user
 from app.models.user import User
+from app.services.maf_agent_service import MafAgentService
 
 router = APIRouter(
     prefix="/api/chat",
@@ -13,10 +11,7 @@ router = APIRouter(
 )
 
 
-foundry_service = FoundryService(
-    endpoint=settings.foundry_project_endpoint,
-    agent_name=settings.foundry_agent_name,
-)
+maf_agent_service = MafAgentService()
 
 
 class ChatRequest(BaseModel):
@@ -24,13 +19,11 @@ class ChatRequest(BaseModel):
 
 
 @router.post("")
-def chat(
+async def chat(
     request: ChatRequest,
-    # current_user: User = Depends(get_current_user),
+    _current_user: User = Depends(get_current_user),
 ):
-
-    result = foundry_service.chat(
-        request.message
-    )
-
-    return result
+    try:
+        return await maf_agent_service.chat(request.message)
+    except RuntimeError as exc:
+        raise HTTPException(status_code=503, detail=str(exc)) from exc

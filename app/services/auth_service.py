@@ -53,10 +53,11 @@ class AuthService:
             .filter(User.email == email)
             .first()
         )
+        print(f"user details:: {user}")
 
         if not user:
             raise ValueError(
-                "Invalid email or password"
+                "User not found"
             )
 
         if not verify_password(

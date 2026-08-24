@@ -16,6 +16,18 @@ class Settings:
         "FOUNDRY_AGENT_NAME"
     )
 
+    foundry_model = os.getenv(
+        "FOUNDRY_MODEL"
+    )
+
+    foundry_api_key = os.getenv(
+        "FOUNDRY_API_KEY"
+    )
+
+    weather_api_key = os.getenv(
+        "WEATHER_API_KEY"
+    )
+
     database_url = os.getenv(
         "DATABASE_URL"
     )

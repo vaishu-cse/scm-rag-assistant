@@ -20,7 +20,7 @@ class FoundryService:
         # OpenAI-compatible endpoint:
         # https://<resource>.services.ai.azure.com/api/projects/<project>/openai/v1
 
-        base_url = f"{endpoint.rstrip('/')}/openai/v1"
+        base_url = f"{endpoint.rstrip('/')}/api/projects/SCM-RAG-Knowledge-Assistant/openai/v1"
 
         self.openai = OpenAI(
             api_key=api_key,
