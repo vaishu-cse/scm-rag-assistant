@@ -16,6 +16,7 @@ maf_agent_service = MafAgentService()
 
 class ChatRequest(BaseModel):
     message: str
+    session_id: str | None = None
 
 
 @router.post("")
@@ -24,6 +25,9 @@ async def chat(
     _current_user: User = Depends(get_current_user),
 ):
     try:
-        return await maf_agent_service.chat(request.message)
+        return await maf_agent_service.chat(
+            message=request.message,
+            session_id=request.session_id,
+        )
     except RuntimeError as exc:
         raise HTTPException(status_code=503, detail=str(exc)) from exc

@@ -36,5 +36,9 @@ class Settings:
         "JWT_SECRET_KEY"
     )
 
+    mcp_server_url = os.getenv(
+        "MCP_SERVER_URL"
+    )
+
 
 settings = Settings()
